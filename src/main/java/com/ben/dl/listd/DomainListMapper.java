@@ -61,7 +61,7 @@ public class DomainListMapper extends MapReduceBase
 						System.out.println(rootDomainName);
 						if(rootDomainName != null){
 							outKey.set(rootDomainName);	
-							output.collect(key, outVal);
+							output.collect(new Text(rootDomainName), new IntWritable(1));//(key, outVal);
 						}
 						
 						
