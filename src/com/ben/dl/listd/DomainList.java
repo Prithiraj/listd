@@ -25,6 +25,7 @@ import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapred.RunningJob;
 import org.apache.hadoop.mapred.TextOutputFormat;
+import org.apache.hadoop.mapred.lib.LongSumReducer;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
@@ -129,8 +130,8 @@ public class DomainList extends Configured implements Tool{
         job.setOutputFormat(TextOutputFormat.class);
         
         job.setMapperClass(DomainListMapper.class);
-        job.setCombinerClass(DomainListReducer.class);
-        job.setReducerClass(DomainListReducer.class);
+        job.setCombinerClass(LongSumReducer.class);
+        job.setReducerClass(LongSumReducer.class);
 		
         RunningJob rj=JobClient.runJob(job);
         System.out.println(rj.getJobStatus());
