@@ -35,6 +35,7 @@
 package edu.cmu.lemurproject;
 
 import java.io.IOException;
+
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
@@ -43,8 +44,9 @@ import org.apache.hadoop.mapred.InputSplit;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapred.RecordReader;
 import org.apache.hadoop.mapred.Reporter;
+import org.archive.io.ArchiveReader;
 
-public class WarcFileInputFormat extends FileInputFormat<LongWritable, WritableWarcRecord> {
+public class WarcFileInputFormat extends FileInputFormat<LongWritable, ArchiveReader> {
 
   /**
    * Don't allow the files to be split!
