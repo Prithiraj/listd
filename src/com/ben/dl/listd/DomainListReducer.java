@@ -18,7 +18,6 @@ public class DomainListReducer extends MapReduceBase
 
 	}
 
-	@Override
 	public void reduce(Text key, Iterator<LongWritable> values,
 			OutputCollector<Text, LongWritable> output, Reporter rep)
 			throws IOException {
