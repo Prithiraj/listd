@@ -72,8 +72,8 @@ public class DomainList extends Configured implements Tool{
 		}
 	}*/
 	public static void main(String[] args) throws Exception {
-		
-		URL url = new URL("https://s3-us-west-2.amazonaws.com/commoncrawloutput/wat.list.gz");
+		//"https://s3-us-west-2.amazonaws.com/commoncrawloutput/wat.list.gz"
+		URL url = new URL(args[2]);
 		
 		URLConnection conn = url.openConnection();
 		

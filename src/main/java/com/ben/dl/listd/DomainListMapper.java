@@ -34,7 +34,7 @@ public class DomainListMapper extends MapReduceBase
 
 
 	@Override
-	public void map(Text arg0, ArchiveReader ar,
+	public void map(Text key, ArchiveReader ar,
 			OutputCollector<Text, LongWritable> output, Reporter rep)
 			throws IOException {
 			
@@ -60,6 +60,7 @@ public class DomainListMapper extends MapReduceBase
 						System.out.println(rootDomainName);
 						if(rootDomainName != null){
 							outKey.set(rootDomainName);	
+							output.collect(key, outVal);
 						}
 						
 						
