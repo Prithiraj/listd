@@ -2,14 +2,13 @@ package com.ben.dl.listd;
 
 import java.io.IOException;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.InputSplit;
+import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapred.RecordReader;
-import org.apache.hadoop.mapred.TaskAttemptContext;
 import org.apache.hadoop.mapred.FileSplit;
 import org.archive.io.ArchiveReader;
 import org.archive.io.warc.WARCReaderFactory;
@@ -27,10 +26,9 @@ public class WARCFileRecordReader implements RecordReader<Text, ArchiveReader> {
 	private FSDataInputStream fsin;
 	private boolean hasBeenRead = false;
 
-	public WARCFileRecordReader(InputSplit inputSplit, TaskAttemptContext context)
+	public WARCFileRecordReader(InputSplit inputSplit, JobConf conf)
 			throws IOException, InterruptedException {
 		FileSplit split = (FileSplit) inputSplit;
-		Configuration conf = context.getConfiguration();
 		Path path = split.getPath();
 		FileSystem fs = path.getFileSystem(conf);
 		fsin = fs.open(path);

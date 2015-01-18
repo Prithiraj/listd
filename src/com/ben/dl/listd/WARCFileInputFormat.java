@@ -31,6 +31,12 @@ public class WARCFileInputFormat extends FileInputFormat<Text, ArchiveReader> {
 	public RecordReader<Text, ArchiveReader> getRecordReader(InputSplit arg0,
 			JobConf arg1, Reporter arg2) throws IOException {
 		// TODO Auto-generated method stub
-		return new WARCFileRecordReader();
+		try {
+			return new WARCFileRecordReader(arg0, arg1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
