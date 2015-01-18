@@ -39,6 +39,7 @@ import java.io.IOException;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.FileInputFormat;
 import org.apache.hadoop.mapred.InputSplit;
 import org.apache.hadoop.mapred.JobConf;
@@ -46,7 +47,7 @@ import org.apache.hadoop.mapred.RecordReader;
 import org.apache.hadoop.mapred.Reporter;
 import org.archive.io.ArchiveReader;
 
-public class WarcFileInputFormat extends FileInputFormat<LongWritable, ArchiveReader> {
+public class WarcFileInputFormat extends FileInputFormat<Text, ArchiveReader> {
 
   /**
    * Don't allow the files to be split!
