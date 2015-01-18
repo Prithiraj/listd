@@ -23,7 +23,7 @@ enum MAPPERCOUNTER{
 	EXCEPTIONS
 }
 public class DomainListMapper extends MapReduceBase 
-	implements Mapper<LongWritable, ArchiveReader, Text, IntWritable>{
+	implements Mapper<Text, ArchiveReader, Text, IntWritable>{
 	
 	private Text outKey = new Text();
 	private LongWritable outVal = new LongWritable();
@@ -33,7 +33,7 @@ public class DomainListMapper extends MapReduceBase
 
 	}
 
-	public void map(LongWritable arg0, ArchiveReader ar,
+	public void map(Text arg0, ArchiveReader ar,
 			OutputCollector<Text, IntWritable> output, Reporter repo)
 			throws IOException {
 	
