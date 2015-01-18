@@ -3,6 +3,7 @@ package com.ben.dl.listd;
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.MapReduceBase;
@@ -22,7 +23,7 @@ enum MAPPERCOUNTER{
 	EXCEPTIONS
 }
 public class DomainListMapper extends MapReduceBase 
-	implements Mapper<Object, ArchiveReader, Text, LongWritable>{
+	implements Mapper<LongWritable, ArchiveReader, Text, IntWritable>{
 	
 	private Text outKey = new Text();
 	private LongWritable outVal = new LongWritable();
@@ -34,8 +35,8 @@ public class DomainListMapper extends MapReduceBase
 
 
 	@Override
-	public void map(Object key, ArchiveReader ar,
-			OutputCollector<Text, LongWritable> output, Reporter rep)
+	public void map(LongWritable key, ArchiveReader ar,
+			OutputCollector<Text, IntWritable> output, Reporter rep)
 			throws IOException {
 			
 		for(ArchiveRecord r : ar){
