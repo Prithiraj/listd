@@ -35,8 +35,13 @@
 package edu.cmu.lemurproject;
 
 import edu.cmu.lemurproject.WarcRecord;
+
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -44,6 +49,7 @@ import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.compress.CompressionCodec;
@@ -52,8 +58,10 @@ import org.apache.hadoop.mapred.InputSplit;
 import org.apache.hadoop.mapred.MultiFileSplit;
 import org.apache.hadoop.mapred.RecordReader;
 import org.apache.hadoop.util.ReflectionUtils;
+import org.archive.io.ArchiveReader;
+import org.archive.io.ArchiveRecord;
 
-public class WarcFileRecordReader<K extends WritableComparable, V extends Writable>  implements RecordReader<LongWritable, WritableWarcRecord> {
+public class WarcFileRecordReader<K extends WritableComparable, V extends Writable>  implements RecordReader<Text, ArchiveReader> {
   public static final Log LOG = LogFactory.getLog(WarcFileRecordReader.class);
 
   private long recordNumber=1;
@@ -157,12 +165,50 @@ public class WarcFileRecordReader<K extends WritableComparable, V extends Writab
     return true;
   }
 
-  public LongWritable createKey() {
-    return new LongWritable();
+  public Text createKey() {
+    return new Text();
   }
 
-  public WritableWarcRecord createValue() {
-    return new WritableWarcRecord();
+  public ArchiveReader createValue() {
+   return new ArchiveReader() {
+	
+	@Override
+	protected void gotoEOR(ArchiveRecord arg0) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public String getFileExtension() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public String getDotFileExtension() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public ArchiveReader getDeleteFileOnCloseReader(File arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public void dump(boolean arg0) throws IOException, ParseException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	protected ArchiveRecord createArchiveRecord(InputStream arg0, long arg1)
+			throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+};
   }
 
   public long getPos() throws IOException {
@@ -187,5 +233,10 @@ public class WarcFileRecordReader<K extends WritableComparable, V extends Writab
     if (totalFileSize==0) { return 0.0f; }
     return (float)totalNumBytesRead/(float)totalFileSize;
   }
+
+public boolean next(Text arg0, ArchiveReader arg1) throws IOException {
+	// TODO Auto-generated method stub
+	return false;
+}
 
 }
