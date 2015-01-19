@@ -3,6 +3,8 @@ package com.ben.dl.listd;
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -28,7 +30,7 @@ public class DomainListMapper extends MapReduceBase
 	
 	private Text outKey = new Text();
 	private LongWritable outVal = new LongWritable();
-	private static final Logger LOG = Logger.getLogger(DomainListMapper.class);
+	private static final Log LOG = LogFactory.getLog(DomainListMapper.class);
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

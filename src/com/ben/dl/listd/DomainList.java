@@ -28,7 +28,7 @@ import org.apache.hadoop.mapred.TextOutputFormat;
 import org.apache.hadoop.mapred.lib.LongSumReducer;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.*;
 
 import edu.cmu.lemurproject.WarcFileInputFormat;
 
@@ -41,7 +41,7 @@ public class DomainList extends Configured implements Tool{
 	 */
 	private static final String CC_BUCKET="s3://aws-publicdatasets/";
 	
-	private static final Logger LOG = Logger.getLogger(DomainList.class);
+	private static final Log LOG = LogFactory.getLog(DomainList.class);
 	/*private static class CSVOutputFormat extends TextOutputFormat<Text, LongWritable>{
 		public RecordWriter<Text, LongWritable> getRecordWriter(FileSystem ignored, JobConf job, String name, Progressable progress)
 		throws IOException{
@@ -138,7 +138,7 @@ public class DomainList extends Configured implements Tool{
         job.setReducerClass(LongSumReducer.class);
 
         RunningJob rj=JobClient.runJob(job);
-        LOG.info(rj.getJobStatus());
+        LOG.info("ABCD Status :"+rj.getJobStatus());
         //System.out.println(rj.getJobStatus());
 		return 0;
 	}
