@@ -126,7 +126,7 @@ public class DomainList extends Configured implements Tool{
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(LongWritable.class);
         
-        job.setInputFormat(WarcFileInputFormat.class);
+        job.setInputFormat(WARCFileInputFormat.class);
         job.setOutputFormat(TextOutputFormat.class);
         
         job.setMapperClass(DomainListMapper.class);
