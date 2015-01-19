@@ -55,11 +55,11 @@ public class DomainListMapper extends MapReduceBase
 					byte[] rawData = IOUtils.toByteArray(r, r.available());
 					String content = new String(rawData);
 					JSONObject json = new JSONObject(content);
-					if(j==1){LOG.info("JSON:"+ json.toString());j=0;}
+					//if(j==1){LOG.info("JSON:"+ json.toString());j=0;}
 					try{
 						JSONArray links = json.getJSONObject("Envelope").getJSONObject("Payload-Metadata").getJSONObject("HTTP-Response-Metadata").getJSONObject("HTML-Metadata").getJSONArray("links");
 						
-						LOG.info(links.length());
+						LOG.info("Length:"+links.length());
 						for(int i=0; i<links.length(); i++){
 							String rootDomainName = DomainLister.getRootDomainName(links.getJSONObject(i).getString("url"));
 							
