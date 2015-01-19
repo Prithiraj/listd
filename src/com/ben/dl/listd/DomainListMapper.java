@@ -10,6 +10,7 @@ import org.apache.hadoop.mapred.MapReduceBase;
 import org.apache.hadoop.mapred.Mapper;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
+import org.apache.log4j.Logger;;
 import org.archive.io.ArchiveReader;
 import org.archive.io.ArchiveRecord;
 import org.commoncrawl.api.DomainLister;
@@ -27,7 +28,8 @@ public class DomainListMapper extends MapReduceBase
 	
 	private Text outKey = new Text();
 	private LongWritable outVal = new LongWritable();
-	
+	private static final Logger LOG = Logger.getLogger(DomainListMapper.class);
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
@@ -36,7 +38,7 @@ public class DomainListMapper extends MapReduceBase
 	public void map(Text arg0, ArchiveReader ar,
 			OutputCollector<Text, IntWritable> output, Reporter repo)
 			throws IOException {
-			System.out.println("Entered map operation");
+			LOG.info("Entered map operation");
 			for(ArchiveRecord r : ar){
 				
 				// Skip any records that are not JSON
@@ -53,10 +55,10 @@ public class DomainListMapper extends MapReduceBase
 					try{
 						JSONArray links = json.getJSONObject("Envelope").getJSONObject("Payload-Metadata").getJSONObject("HTTP-Response-Metadata").getJSONObject("HTML-Metadata").getJSONArray("links");
 						
-						
+						LOG.info(links.length());
 						for(int i=0; i<links.length(); i++){
 							String rootDomainName = DomainLister.getRootDomainName(links.getJSONObject(i).getString("url"));
-							System.out.println(rootDomainName);
+							
 							if(rootDomainName != null){
 								outKey.set(rootDomainName);	
 								output.collect(new Text(rootDomainName), new IntWritable(1));//(key, outVal);
