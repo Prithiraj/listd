@@ -44,6 +44,7 @@ public class DomainListMapper extends MapReduceBase
 			for(ArchiveRecord r : ar){
 				
 				// Skip any records that are not JSON
+				LOG.info("Skipping Record");
 				if(!r.getHeader().getMimetype().equals("application/json")){
 					continue;
 				}
