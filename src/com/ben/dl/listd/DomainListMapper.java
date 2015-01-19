@@ -36,7 +36,7 @@ public class DomainListMapper extends MapReduceBase
 	public void map(Text arg0, ArchiveReader ar,
 			OutputCollector<Text, IntWritable> output, Reporter repo)
 			throws IOException {
-	
+			System.out.println("Entered map operation");
 			for(ArchiveRecord r : ar){
 				
 				// Skip any records that are not JSON
