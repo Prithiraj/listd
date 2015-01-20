@@ -74,19 +74,19 @@ public class DomainListMapper extends MapReduceBase
 								}else {continue;}
 							}else {continue;}
 						
-						LOG.info("Length:"+jsArray.length());
+						
 						for(int i=0; i<jsArray.length(); i++){
 							if(jsArray.getJSONObject(i).has("url")){
 								String rootDomainName = DomainLister.getRootDomainName(jsArray.getJSONObject(i).getString("url"));
 								if(rootDomainName != null){
+									LOG.info("Domain:"+rootDomainName);
 									outKey.set(rootDomainName);	
 									output.collect(new Text(rootDomainName), new IntWritable(1));//(key, outVal);
 								}
 							}
 							
 						}
-						
-						
+
 					}catch(JSONException ex){
 						
 					}
