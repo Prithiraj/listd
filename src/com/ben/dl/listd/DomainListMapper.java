@@ -12,7 +12,7 @@ import org.apache.hadoop.mapred.MapReduceBase;
 import org.apache.hadoop.mapred.Mapper;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
-import org.apache.log4j.Logger;;
+import org.apache.log4j.Logger;
 import org.archive.io.ArchiveReader;
 import org.archive.io.ArchiveRecord;
 import org.commoncrawl.api.DomainLister;
@@ -57,17 +57,32 @@ public class DomainListMapper extends MapReduceBase
 					JSONObject json = new JSONObject(content);
 					//if(j==1){LOG.info("JSON:"+ json.toString());j=0;}
 					try{
-						JSONArray links = json.getJSONObject("Envelope").getJSONObject("Payload-Metadata").getJSONObject("HTTP-Response-Metadata").getJSONObject("HTML-Metadata").getJSONArray("links");
+						JSONArray jsArray = null;
+						if(json.has("Envelope")){
+							if(json.getJSONObject("Envelope").has("Payload-Metadata")){
+								if(json.getJSONObject("Envelope").getJSONObject("Payload-Metadata").has("HTTP-Response-Metadata")){
+									if(json.getJSONObject("Envelope").getJSONObject("Payload-Metadata").getJSONObject("HTTP-Response-Metadata").has("HTML-Metadata")){
+										if(json.getJSONObject("Envelope").getJSONObject("Payload-Metadata").getJSONObject("HTTP-Response-Metadata").getJSONObject("HTML-Metadata").has("Links")){
+												jsArray = json.getJSONObject("Envelope").getJSONObject("Payload-Metadata").getJSONObject("HTTP-Response-Metadata").getJSONObject("HTML-Metadata").getJSONArray("Links");
+												if(jsArray==null)
+												{
+													continue;
+												}
+											}else {continue;}
+										}else {continue;}
+									}else {continue;}
+								}else {continue;}
+							}else {continue;}
 						
-						LOG.info("Length:"+links.length());
-						for(int i=0; i<links.length(); i++){
-							String rootDomainName = DomainLister.getRootDomainName(links.getJSONObject(i).getString("url"));
-							
-							if(rootDomainName != null){
-								outKey.set(rootDomainName);	
-								output.collect(new Text(rootDomainName), new IntWritable(1));//(key, outVal);
+						LOG.info("Length:"+jsArray.length());
+						for(int i=0; i<jsArray.length(); i++){
+							if(jsArray.getJSONObject(i).has("url")){
+								String rootDomainName = DomainLister.getRootDomainName(jsArray.getJSONObject(i).getString("url"));
+								if(rootDomainName != null){
+									outKey.set(rootDomainName);	
+									output.collect(new Text(rootDomainName), new IntWritable(1));//(key, outVal);
+								}
 							}
-							
 							
 						}
 						
