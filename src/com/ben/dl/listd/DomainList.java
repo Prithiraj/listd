@@ -17,6 +17,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.FileInputFormat;
@@ -128,7 +129,7 @@ public class DomainList extends Configured implements Tool{
         FileOutputFormat.setOutputPath(job, new Path(OutputPath));
         
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(LongWritable.class);
+        job.setOutputValueClass(IntWritable.class);
         
         job.setInputFormat(WARCFileInputFormat.class);
         job.setOutputFormat(TextOutputFormat.class);

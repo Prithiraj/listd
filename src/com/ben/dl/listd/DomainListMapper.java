@@ -79,7 +79,7 @@ public class DomainListMapper extends MapReduceBase
 							if(jsArray.getJSONObject(i).has("url")){
 								String rootDomainName = DomainLister.getRootDomainName(jsArray.getJSONObject(i).getString("url"));
 								if(rootDomainName != null){
-									LOG.info("Domain:"+rootDomainName);
+									//LOG.info("Domain:"+rootDomainName);
 									outKey.set(rootDomainName);	
 									output.collect(new Text(rootDomainName), new IntWritable(1));//(key, outVal);
 								}
@@ -93,7 +93,7 @@ public class DomainListMapper extends MapReduceBase
 					
 					
 				}catch(Exception ex){
-					
+					System.out.println("Heavy Impact");
 				}
 			}
 		
