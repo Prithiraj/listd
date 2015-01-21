@@ -27,6 +27,7 @@ import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapred.RunningJob;
 import org.apache.hadoop.mapred.TextOutputFormat;
 import org.apache.hadoop.mapred.lib.LongSumReducer;
+import org.apache.hadoop.mapreduce.lib.reduce.IntSumReducer;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.commons.logging.*;
@@ -129,7 +130,7 @@ public class DomainList extends Configured implements Tool{
         FileOutputFormat.setOutputPath(job, new Path(OutputPath));
         
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setOutputValueClass(LongWritable.class);
         
         job.setInputFormat(WARCFileInputFormat.class);
         job.setOutputFormat(TextOutputFormat.class);

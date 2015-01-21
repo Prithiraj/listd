@@ -5,14 +5,12 @@ import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.MapReduceBase;
 import org.apache.hadoop.mapred.Mapper;
 import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
-import org.apache.log4j.Logger;
 import org.archive.io.ArchiveReader;
 import org.archive.io.ArchiveRecord;
 import org.commoncrawl.api.DomainLister;
@@ -26,10 +24,9 @@ enum MAPPERCOUNTER{
 	EXCEPTIONS
 }
 public class DomainListMapper extends MapReduceBase 
-	implements Mapper<Text, ArchiveReader, Text, IntWritable>{
+	implements Mapper<Text, ArchiveReader, Text, LongWritable>{
 	
 	private Text outKey = new Text();
-	private LongWritable outVal = new LongWritable();
 	private static final Log LOG = LogFactory.getLog(DomainListMapper.class);
 
 	public static void main(String[] args) {
@@ -38,11 +35,10 @@ public class DomainListMapper extends MapReduceBase
 	}
 
 	public void map(Text arg0, ArchiveReader ar,
-			OutputCollector<Text, IntWritable> output, Reporter repo)
+			OutputCollector<Text, LongWritable> output, Reporter repo)
 			throws IOException {
 			LOG.info("Entered map operation");
-		int j=1;
-			for(ArchiveRecord r : ar){
+		for(ArchiveRecord r : ar){
 				
 				// Skip any records that are not JSON
 				
@@ -81,19 +77,19 @@ public class DomainListMapper extends MapReduceBase
 								if(rootDomainName != null){
 									//LOG.info("Domain:"+rootDomainName);
 									outKey.set(rootDomainName);	
-									output.collect(new Text(rootDomainName), new IntWritable(1));//(key, outVal);
+									output.collect(new Text(rootDomainName), new LongWritable(1));//(key, outVal);
 								}
 							}
 							
 						}
 
 					}catch(JSONException ex){
-						
+						LOG.info("JSON ERROR :"+ex.toString());
 					}
 					
 					
 				}catch(Exception ex){
-					System.out.println("Heavy Impact");
+					LOG.info("Heavy Impact");
 				}
 			}
 		
