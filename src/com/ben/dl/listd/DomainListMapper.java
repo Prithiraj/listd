@@ -6,6 +6,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.MapReduceBase;
 import org.apache.hadoop.mapred.Mapper;
@@ -24,7 +25,7 @@ enum MAPPERCOUNTER{
 	EXCEPTIONS
 }
 public class DomainListMapper extends MapReduceBase 
-	implements Mapper<Text, ArchiveReader, Text, LongWritable>{
+	implements Mapper<Text, ArchiveReader, Text, NullWritable>{
 	
 	private Text outKey = new Text();
 	private static final Log LOG = LogFactory.getLog(DomainListMapper.class);
@@ -35,7 +36,7 @@ public class DomainListMapper extends MapReduceBase
 	}
 
 	public void map(Text arg0, ArchiveReader ar,
-			OutputCollector<Text, LongWritable> output, Reporter repo)
+			OutputCollector<Text, NullWritable> output, Reporter repo)
 			throws IOException {
 			LOG.info("Entered map operation");
 		for(ArchiveRecord r : ar){
@@ -77,19 +78,19 @@ public class DomainListMapper extends MapReduceBase
 								if(rootDomainName != null){
 									//LOG.info("Domain:"+rootDomainName);
 									outKey.set(rootDomainName);	
-									output.collect(new Text(rootDomainName), new LongWritable(1));//(key, outVal);
+									output.collect(new Text(rootDomainName), NullWritable.get());//(key, outVal);
 								}
 							}
 							
 						}
 
 					}catch(JSONException ex){
-						LOG.info("JSON ERROR :"+ex.toString());
+						LOG.info("JSON ERROR :"+ex.getMessage());
 					}
 					
 					
 				}catch(Exception ex){
-					LOG.info("Heavy Impact");
+					LOG.info("Error: "+ex.getMessage());
 				}
 			}
 		

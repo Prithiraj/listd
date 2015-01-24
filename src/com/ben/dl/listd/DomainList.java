@@ -19,6 +19,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.FileInputFormat;
 import org.apache.hadoop.mapred.FileOutputFormat;
@@ -124,23 +125,29 @@ public class DomainList extends Configured implements Tool{
 		//Path out = new Path(args[3]);
 		
 		// Specify job specific parameters
-		// Specify various job-specific parameters     
-        job.setJobName("my-app");
-        FileInputFormat.setInputPaths(job, new Path(InputPath));
-        FileOutputFormat.setOutputPath(job, new Path(OutputPath));
-        
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(LongWritable.class);
-        
-        job.setInputFormat(WARCFileInputFormat.class);
-        job.setOutputFormat(TextOutputFormat.class);
-        
-        job.setMapperClass(DomainListMapper.class);
-        job.setCombinerClass(LongSumReducer.class);
-        job.setReducerClass(LongSumReducer.class);
+		// Specify various job-specific parameters 
+		try{
+			job.setJobName("my-app");
+	        FileInputFormat.setInputPaths(job, new Path(InputPath));
+	        FileOutputFormat.setOutputPath(job, new Path(OutputPath));
+	        
+	        job.setOutputKeyClass(Text.class);
+	        job.setOutputValueClass(NullWritable.class);
+	        
+	        job.setInputFormat(WARCFileInputFormat.class);
+	        job.setOutputFormat(TextOutputFormat.class);
+	        
+	        job.setMapperClass(DomainListMapper.class);
+	        //job.setCombinerClass();
+	        job.setCombinerClass(DomainListReducer.class);
+	        job.setReducerClass(DomainListReducer.class);
 
-        RunningJob rj=JobClient.runJob(job);
-        LOG.info("ABCD Status :"+rj.getJobStatus());
+	        RunningJob rj=JobClient.runJob(job);
+	        LOG.info("ABCD Status :"+rj.getJobStatus());	
+		}catch(Exception ex){
+			LOG.info("Error Somewhere : "+ex.getMessage());
+		}
+        
         //System.out.println(rj.getJobStatus());
 		return 0;
 	}
