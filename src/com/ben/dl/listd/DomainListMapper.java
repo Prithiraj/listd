@@ -14,6 +14,7 @@ import org.apache.hadoop.mapred.OutputCollector;
 import org.apache.hadoop.mapred.Reporter;
 import org.archive.io.ArchiveReader;
 import org.archive.io.ArchiveRecord;
+import org.commoncrawl.api.DomainFilter;
 import org.commoncrawl.api.DomainLister;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +75,7 @@ public class DomainListMapper extends MapReduceBase
 						
 						for(int i=0; i<jsArray.length(); i++){
 							if(jsArray.getJSONObject(i).has("url")){
-								String rootDomainName = DomainLister.getRootDomainName(jsArray.getJSONObject(i).getString("url"));
+								String rootDomainName = DomainFilter.getRootDomainName(jsArray.getJSONObject(i).getString("url"));
 								if(rootDomainName != null){
 									//LOG.info("Domain:"+rootDomainName);
 									outKey.set(rootDomainName);	
