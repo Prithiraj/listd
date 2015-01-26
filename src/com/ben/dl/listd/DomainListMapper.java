@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.MapReduceBase;
@@ -15,7 +14,6 @@ import org.apache.hadoop.mapred.Reporter;
 import org.archive.io.ArchiveReader;
 import org.archive.io.ArchiveRecord;
 import org.commoncrawl.api.DomainFilter;
-import org.commoncrawl.api.DomainLister;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,7 +28,7 @@ public class DomainListMapper extends MapReduceBase
 	
 	private Text outKey = new Text();
 	private static final Log LOG = LogFactory.getLog(DomainListMapper.class);
-
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
@@ -39,7 +37,8 @@ public class DomainListMapper extends MapReduceBase
 	public void map(Text arg0, ArchiveReader ar,
 			OutputCollector<Text, NullWritable> output, Reporter repo)
 			throws IOException {
-			LOG.info("Entered map operation");
+			//LOG.info("Entered map operation");
+			DomainFilter df = new DomainFilter();
 		for(ArchiveRecord r : ar){
 				
 				// Skip any records that are not JSON
@@ -75,7 +74,8 @@ public class DomainListMapper extends MapReduceBase
 						
 						for(int i=0; i<jsArray.length(); i++){
 							if(jsArray.getJSONObject(i).has("url")){
-								String rootDomainName = DomainFilter.getRootDomainName(jsArray.getJSONObject(i).getString("url"));
+								JSONObject jObj=null;
+								String rootDomainName = df.getRootDomainName(jsArray.getJSONObject(i).getString("url"));
 								if(rootDomainName != null){
 									//LOG.info("Domain:"+rootDomainName);
 									outKey.set(rootDomainName);	

@@ -28,23 +28,19 @@ public class DomainFilter {
 		
 		jObj = new JSONObject(tokener);
 		
-		System.out.println(jObj);
-		
-		domainMap=(HashMap<String, List<String>>) JsonUtils.jsonToMap(jObj);
-		
 		
 	}
 	public static void main(String[] args) throws URISyntaxException, IOException {
 		// parse command line arguments
 		//DomainFilter df = new DomainFilter();	
-			URL url = new URL("https://s3-us-west-2.amazonaws.com/commoncrawloutput/domainfilter.json");
-			URLConnection conn = url.openConnection();
+			//URL url = new URL("https://s3-us-west-2.amazonaws.com/commoncrawloutput/domainfilter.json");
+			//URLConnection conn = url.openConnection();
 		
-			InputStream is = conn.getInputStream();
+			//InputStream is = conn.getInputStream();
 		
-			JSONTokener tokener = new JSONTokener(is);
+			//JSONTokener tokener = new JSONTokener(is);
 		
-			jObj = new JSONObject(tokener);
+			//jObj = new JSONObject(tokener);
 		
 			//System.out.println(jObj.keySet());
 			//String lastWord = "uk";
@@ -63,8 +59,9 @@ public class DomainFilter {
 				//domainMap=(HashMap<String, List<String>>) JsonUtils.jsonToMap(jsonObject);
 				
 				////System.out.println(domainMap.get("au"));
-			System.out.println(DomainFilter.getRootDomainName("http://blog.google.eu/helloworld"));
-			System.out.println(DomainFilter.getRootDomainName("http://blog.google.net/helloworld"));
+			DomainFilter df = new DomainFilter();
+			System.out.println(df.getRootDomainName("http://blog.google.eu/helloworld"));
+			System.out.println(df.getRootDomainName("http://blog.google.net/helloworld"));
 	}
 	
 	/**
@@ -72,7 +69,7 @@ public class DomainFilter {
 	 * @return basedomain e.g google.com
 	 * @throws URISyntaxException 
 	 */
-	public static String getRootDomainName(String url) throws URISyntaxException{
+	public String getRootDomainName(String url) throws URISyntaxException{
 		String strBasedomain=null;
 		
 		
@@ -139,7 +136,7 @@ public class DomainFilter {
 	    return domain;
 	}
 	
-	public static boolean isValidSld(String lastWord, String secondLastWord){
+	public boolean isValidSld(String lastWord, String secondLastWord){
 		
 		JSONArray jsArray = jObj.getJSONArray(lastWord).getJSONArray(1);
 		
@@ -151,7 +148,7 @@ public class DomainFilter {
 		
 		return false;
 	}
-	public static boolean isInvalidSld(String lastWord, String secondLastWord){
+	public boolean isInvalidSld(String lastWord, String secondLastWord){
 		
 		JSONArray jsArray = jObj.getJSONArray(lastWord).getJSONArray(0);
 		
