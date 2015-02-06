@@ -6,6 +6,7 @@ package com.ben.dl.listd;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
@@ -76,9 +77,20 @@ public class DomainList extends Configured implements Tool{
 			csvOutput.writeLong(value.get(),"occurences");
 		}
 	}*/
+	public static String getLine(BufferedReader br, int lineNum) throws IOException{
+		String line="";
+		int l=0;
+		lineNum = lineNum -1;
+		while((line = br.readLine())!=null){
+			if (l==lineNum){
+				return line;
+			}
+		}
+		return "";
+	}
 	public static void main(String[] args) throws Exception {
 		//"https://s3-us-west-2.amazonaws.com/commoncrawloutput/wat.list.gz"
-		/*URL url = new URL(args[2]);
+		URL url = new URL(args[2]);
 		
 		URLConnection conn = url.openConnection();
 		
@@ -89,15 +101,19 @@ public class DomainList extends Configured implements Tool{
 		BufferedReader br = new BufferedReader(r);
 		
 		String line="";
-		int lineNumber=0;
+		int lineNum=Integer.parseInt(args[3]);
 		
-		while ((line = br.readLine()) != null) {
+		args[2]=CC_BUCKET.concat(getLine(br,lineNum));
+		args[3]="s3://commoncrawloutput/"+lineNum+"/";
+		/*
+		 * while ((line = br.readLine()) != null) {
 	        args[2] = CC_BUCKET.concat(line);
 	        System.out.println(args[2]);
 	        int res = ToolRunner.run(new Configuration(), new DomainList(), args);
 	        
-	    }*/
+	    }
 		args[2]=CC_BUCKET.concat("/common-crawl/crawl-data/CC-MAIN-2013-20/segments/1368696381249/wat/CC-MAIN-20130516092621-00000-ip-10-60-113-184.ec2.internal.warc.wat.gz");
+		*/
 		int res = ToolRunner.run(new Configuration(), new DomainList(), args);
 		System.exit(res);
 	}
