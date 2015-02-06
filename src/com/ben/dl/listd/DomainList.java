@@ -90,6 +90,8 @@ public class DomainList extends Configured implements Tool{
 	}
 	public static void main(String[] args) throws Exception {
 		//"https://s3-us-west-2.amazonaws.com/commoncrawloutput/wat.list.gz"
+		/*
+		 *
 		URL url = new URL(args[2]);
 		
 		URLConnection conn = url.openConnection();
@@ -105,15 +107,14 @@ public class DomainList extends Configured implements Tool{
 		
 		args[2]=CC_BUCKET.concat(getLine(br,lineNum));
 		args[3]="s3://commoncrawloutput/"+lineNum+"/";
-		/*
-		 * while ((line = br.readLine()) != null) {
+		 while ((line = br.readLine()) != null) {
 	        args[2] = CC_BUCKET.concat(line);
 	        System.out.println(args[2]);
 	        int res = ToolRunner.run(new Configuration(), new DomainList(), args);
 	        
 	    }
-		args[2]=CC_BUCKET.concat("/common-crawl/crawl-data/CC-MAIN-2013-20/segments/1368696381249/wat/CC-MAIN-20130516092621-00000-ip-10-60-113-184.ec2.internal.warc.wat.gz");
 		*/
+		args[2]=CC_BUCKET.concat(args[2]);
 		int res = ToolRunner.run(new Configuration(), new DomainList(), args);
 		System.exit(res);
 	}
