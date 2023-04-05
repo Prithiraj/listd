@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 public class DomainFilter {
+	//hashmap
 	public static HashMap<String, List<String>> domainMap = new HashMap<String, List<String>>();
 	public static JSONObject jObj;
 	public DomainFilter() throws IOException{
